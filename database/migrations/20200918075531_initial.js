@@ -39,6 +39,10 @@ exports.up = function(knex) {
           principles.string('change')
           .notNullable()
           .unique()
+
+          principles
+            .integer('votes')
+            .defaultTo(0)
       })
       .createTable('nodes', (nodes) => {
         nodes
