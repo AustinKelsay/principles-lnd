@@ -46,7 +46,7 @@ exports.up = function(knex) {
       })
       .createTable('nodes', (nodes) => {
         nodes
-          .string('hostname')
+          .string('host')
           .notNullable()
           .unique()
 
