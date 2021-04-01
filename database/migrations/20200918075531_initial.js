@@ -39,11 +39,28 @@ exports.up = function(knex) {
           principles.string('change')
           .notNullable()
           .unique()
+      })
+      .createTable('nodes', (nodes) => {
+        nodes
+          .string('hostname')
+          .notNullable()
+          .unique()
+
+        nodes
+          .string('tls')
+          .notNullable()
+          .unique()
+
+        nodes
+          .string('macaroon')
+          .notNullable()
+          .unique()
       }))
   };
   
   exports.down = function(knex) {
       return( knex.schema
+        .dropTableIfExists('nodes')
         .dropTableIfExists("principles")
         .dropTableIfExists("users")
       )
