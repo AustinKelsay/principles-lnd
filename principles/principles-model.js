@@ -5,7 +5,8 @@ module.exports = {
   find,
   findById,
   update,
-  remove
+  remove,
+  upVote
 };
 
 function find() {
@@ -30,5 +31,11 @@ function remove(id) {
     return db('principles')
     .where('id', Number(id))
     .del();
+}
+
+function upVote(id) {
+  return db('principles')
+    .where({ id })
+    .update({vote: vote+1})
 }
 
