@@ -15,7 +15,7 @@ const server: Application = express();
 server.use(express.json());
 server.use(cors())
 server.use(helmet())
-server.use(morgan())
+server.use(morgan('tiny'))
 
 const PORT = process.env.PORT || 5000;
 
