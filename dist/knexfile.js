@@ -1,3 +1,4 @@
+"use strict";
 // Update with your config settings.
 module.exports = {
     development: {
@@ -36,4 +37,3 @@ module.exports = {
         }
     }
 };
-//# sourceMappingURL=knexfile.js.map

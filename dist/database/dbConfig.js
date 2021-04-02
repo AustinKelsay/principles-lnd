@@ -1,5 +1,5 @@
-const knex = require("knex");
-const config = require("../knexfile");
-const env = process.env.DB_ENV || "development";
+"use strict";
+var knex = require("knex");
+var config = require("../knexfile");
+var env = process.env.DB_ENV || "development";
 module.exports = knex(config[env]);
-//# sourceMappingURL=dbConfig.js.map
