@@ -1,16 +1,16 @@
-const express = require('express');
+import express, { Application, Request, Response } from "express"
 // const authRouter = require("./users/auth-router")
 // const principlesRouter = require("./principles/principles-router")
 // const userPrinciplesRouter = require("./principles/user-principles-router")
 // const lightningRouter = require("./lightning/lightningRouter.ts")
-const dotenv = require('dotenv')
-const cors = require('cors')
-const helmet = require("helmet")
-const morgan = require("morgan")
+import dotenv from 'dotenv';
+import cors from 'cors';
+import helmet from "helmet"
+import morgan from "morgan"
 
 dotenv.config()
 
-const server = express();
+const server: Application = express();
 
 server.use(express.json());
 server.use(cors())
@@ -23,7 +23,7 @@ server.listen(PORT, () => {
   console.log(`Listening on port ${PORT}...`);
 });
 
-server.get("/", (req, res) => {
+server.get("/", (req: Request, res: Response) => {
     console.log(process.env.PORT)
     res.status(200).json({message: "Welcome!"})
 })
