@@ -2,7 +2,7 @@ import express, { Application, Request, Response } from "express"
 // const authRouter = require("./users/auth-router")
 // const principlesRouter = require("./principles/principles-router")
 // const userPrinciplesRouter = require("./principles/user-principles-router")
-// const lightningRouter = require("./lightning/lightningRouter.ts")
+//const lightningRouter = require("./lightning/lightningRouter.ts")
 import dotenv from 'dotenv';
 import cors from 'cors';
 import helmet from "helmet"
@@ -31,4 +31,4 @@ server.get("/", (req: Request, res: Response) => {
 // server.use('/auth', authRouter);
 // server.use('/principles', principlesRouter);
 // server.use('/principles/user', userPrinciplesRouter);
-// server.use('/nodes', lightningRouter);
+//server.use('/nodes', lightningRouter);
