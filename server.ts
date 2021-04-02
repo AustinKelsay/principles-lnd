@@ -22,10 +22,6 @@ server.get("/", (req: Request, res: Response) => {
     res.status(200).json({message: "Welcome!"})
 })
 
-server.get("/nodes", (req: Request, res: Response) => {
-    console.log(process.env.PORT)
-    res.status(200).json({message: "Welcome!"})
-})
 // server.use('/auth', authRouter);
 // server.use('/principles', principlesRouter);
 // server.use('/principles/user', userPrinciplesRouter);
