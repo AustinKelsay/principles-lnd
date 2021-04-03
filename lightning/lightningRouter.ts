@@ -29,11 +29,9 @@ const router = require("express").Router();
   router.get("/", (req: Request, res: Response) => {
     Nodes.getAllNodes()
     .then((nodes: any) => {
-      console.log(nodes)
       res.status(200).json(nodes)
     })
     .catch((err: any) => {
-      console.log(err)
       res.status(500).json(err)
     })
   })

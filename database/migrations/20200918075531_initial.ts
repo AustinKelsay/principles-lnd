@@ -1,5 +1,5 @@
-exports.up = function(knex) {
-    return (knex.schema.createTable('users', (users) => {
+exports.up = function(knex: any) {
+    return (knex.schema.createTable('users', (users: any) => {
         users.increments();
   
         users
@@ -16,7 +16,7 @@ exports.up = function(knex) {
           .defaultTo(0)
   
     })
-      .createTable('principles', (principles) => {
+      .createTable('principles', (principles: any) => {
           principles.increments();
 
           principles
@@ -44,14 +44,14 @@ exports.up = function(knex) {
             .integer('votes')
             .defaultTo(0)
       })
-      .createTable('nodes', (nodes) => {
+      .createTable('nodes', (nodes: any) => {
         nodes
           .string('host')
           .notNullable()
           .unique()
 
         nodes
-          .string('tls')
+          .string('cert')
           .notNullable()
           .unique()
 
@@ -59,10 +59,15 @@ exports.up = function(knex) {
           .string('macaroon')
           .notNullable()
           .unique()
+        
+        nodes
+          .string('pubkey')
+          .notNullable()
+          .unique()
       }))
   };
   
-  exports.down = function(knex) {
+  exports.down = function(knex: any) {
       return( knex.schema
         .dropTableIfExists('nodes')
         .dropTableIfExists("principles")
