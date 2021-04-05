@@ -14,7 +14,23 @@ exports.up = function(knex: any) {
         users
           .boolean("admin")
           .defaultTo(0)
-  
+        
+        users
+          .string('host')
+          .unique()
+        
+        users
+          .string('cert')
+          .unique()
+
+        users
+          .string('macaroon')
+          .unique()
+
+        users
+          .string('pubkey')
+          .unique()
+        
     })
       .createTable('principles', (principles: any) => {
           principles.increments();
@@ -44,32 +60,11 @@ exports.up = function(knex: any) {
             .integer('votes')
             .defaultTo(0)
       })
-      .createTable('nodes', (nodes: any) => {
-        nodes
-          .string('host')
-          .notNullable()
-          .unique()
-
-        nodes
-          .string('cert')
-          .notNullable()
-          .unique()
-
-        nodes
-          .string('macaroon')
-          .notNullable()
-          .unique()
-        
-        nodes
-          .string('pubkey')
-          .notNullable()
-          .unique()
-      }))
+    )
   };
   
   exports.down = function(knex: any) {
       return( knex.schema
-        .dropTableIfExists('nodes')
         .dropTableIfExists("principles")
         .dropTableIfExists("users")
       )
