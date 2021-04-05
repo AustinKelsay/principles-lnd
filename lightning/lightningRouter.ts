@@ -13,14 +13,19 @@ const router = require("express").Router();
 //   res.send({ token });
 // };
 
-  router.get("/", (req: Request, res: Response) => {
-    Nodes.getAllNodes()
-    .then((nodes: any) => {
-      res.status(200).json(nodes)
-    })
-    .catch((err: any) => {
-      res.status(500).json(err)
-    })
+router.post('/connection', (req: Request, res: Response) => {
+
+})
+
+
+router.post("/", (req: Request, res: Response) => {
+  Nodes.getAllNodes()
+  .then((nodes: any) => {
+    res.status(200).json(nodes)
   })
+  .catch((err: any) => {
+    res.status(500).json(err)
+  })
+})
   
 module.exports = router
