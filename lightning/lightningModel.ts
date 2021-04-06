@@ -1,4 +1,5 @@
 const db = require("../database/dbConfig");
+import {LndNode} from "./lightningRouter"
 
 module.exports = {
     addNode,
@@ -6,7 +7,7 @@ module.exports = {
     removeNode
 }
 
-function addNode(id ,node) {
+function addNode(id: number, node: LndNode) {
     return db("users")
         .where({ id })
         .update({
@@ -17,7 +18,7 @@ function addNode(id ,node) {
         })
 }
 
-function updateNode(id ,node) {
+function updateNode(id: number, node: LndNode) {
     return db("users")
         .where({ id })
         .update({
@@ -28,7 +29,7 @@ function updateNode(id ,node) {
         })
 }
 
-function removeNode(id) {
+function removeNode(id: number) {
     return db('users')
         .where({ id })
         .update({
