@@ -54,104 +54,83 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.NodeEvents = void 0;
 var lnrpc_1 = __importDefault(require("@radar/lnrpc"));
 var events_1 = require("events");
-var uuid_1 = require("uuid");
+exports.NodeEvents = {
+    invoicePaid: 'invoice-paid',
+};
 var NodeManager = /** @class */ (function (_super) {
     __extends(NodeManager, _super);
     function NodeManager() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        /**
-         * a mapping of token to gRPC connection. This is an optimization to
-         * avoid calling `createLnRpc` on every request. Instead, the object is kept
-         * in memory for the lifetime of the server.
-         */
-        _this._lndNodes = {};
-        return _this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
-    /**
-     * Retrieves the in-memory connection to an LND node
-     */
-    NodeManager.prototype.getRpc = function (token) {
-        if (!this._lndNodes[token]) {
-            throw new Error('Not Authorized. You must login first!');
-        }
-        return this._lndNodes[token];
-    };
     /**
      * Tests the LND node connection by validating that we can get the node's info
      */
-    NodeManager.prototype.connect = function (host, cert, macaroon, prevToken) {
+    NodeManager.prototype.connect = function (host, cert, macaroon) {
         return __awaiter(this, void 0, void 0, function () {
-            var token, rpc, pubkey, err_1;
+            var rpc, pubkey, msg, signature, rHash, err_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        token = prevToken || uuid_1.v4().replace(/-/g, '');
-                        _a.label = 1;
-                    case 1:
-                        _a.trys.push([1, 4, , 5]);
+                        _a.trys.push([0, 8, , 9]);
                         return [4 /*yield*/, lnrpc_1.default({
                                 server: host,
                                 cert: Buffer.from(cert, 'hex').toString('utf-8'),
                                 macaroon: macaroon,
                             })];
-                    case 2:
+                    case 1:
                         rpc = _a.sent();
                         return [4 /*yield*/, rpc.getInfo()];
-                    case 3:
+                    case 2:
                         pubkey = (_a.sent()).identityPubkey;
-                        // store this rpc connection in the in-memory list
-                        this._lndNodes[token] = rpc;
-                        // return this node's token for future requests
-                        return [2 /*return*/, { token: token, pubkey: pubkey }];
+                        // verify we have permission to get channel balances
+                        return [4 /*yield*/, rpc.channelBalance()];
+                    case 3:
+                        // verify we have permission to get channel balances
+                        _a.sent();
+                        msg = Buffer.from('authorization test').toString('base64');
+                        return [4 /*yield*/, rpc.signMessage({ msg: msg })];
                     case 4:
+                        signature = (_a.sent()).signature;
+                        // verify we have permission to verify a message
+                        return [4 /*yield*/, rpc.verifyMessage({ msg: msg, signature: signature })];
+                    case 5:
+                        // verify we have permission to verify a message
+                        _a.sent();
+                        return [4 /*yield*/, rpc.addInvoice({ value: '1' })];
+                    case 6:
+                        rHash = (_a.sent()).rHash;
+                        // verify we have permission to lookup invoices
+                        return [4 /*yield*/, rpc.lookupInvoice({ rHash: rHash })];
+                    case 7:
+                        // verify we have permission to lookup invoices
+                        _a.sent();
+                        // listen for payments from LND
+                        this.listenForPayments(rpc, pubkey);
+                        return [3 /*break*/, 9];
+                    case 8:
                         err_1 = _a.sent();
-                        // remove the connection from the cache since it is not valid
-                        if (this._lndNodes[token]) {
-                            delete this._lndNodes[token];
-                        }
                         throw err_1;
-                    case 5: return [2 /*return*/];
+                    case 9: return [2 /*return*/];
                 }
             });
         });
     };
     /**
-     * Reconnect to all persisted nodes to to cache the `LnRpc` objects
-     * @param nodes the list of nodes
+     * listen for payments made to the node. When a payment is settled, emit
+     * the `invoicePaid` event to notify listeners of the NodeManager
      */
-    NodeManager.prototype.reconnectNodes = function (nodes) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _i, nodes_1, node, host, cert, macaroon, token, error_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _i = 0, nodes_1 = nodes;
-                        _a.label = 1;
-                    case 1:
-                        if (!(_i < nodes_1.length)) return [3 /*break*/, 6];
-                        node = nodes_1[_i];
-                        host = node.host, cert = node.cert, macaroon = node.macaroon, token = node.token;
-                        _a.label = 2;
-                    case 2:
-                        _a.trys.push([2, 4, , 5]);
-                        console.log("Reconnecting to LND node " + host + " for token " + token);
-                        return [4 /*yield*/, this.connect(host, cert, macaroon, token)];
-                    case 3:
-                        _a.sent();
-                        return [3 /*break*/, 5];
-                    case 4:
-                        error_1 = _a.sent();
-                        // the token will not be cached
-                        console.error("Failed to reconnect to LND node " + host + " with token: " + token);
-                        return [3 /*break*/, 5];
-                    case 5:
-                        _i++;
-                        return [3 /*break*/, 1];
-                    case 6: return [2 /*return*/];
-                }
-            });
+    NodeManager.prototype.listenForPayments = function (rpc, pubkey) {
+        var _this = this;
+        var stream = rpc.subscribeInvoices();
+        stream.on('data', function (invoice) {
+            if (invoice.settled) {
+                var hash = invoice.rHash.toString('base64');
+                var amount = invoice.amtPaidSat;
+                _this.emit(exports.NodeEvents.invoicePaid, { hash: hash, amount: amount, pubkey: pubkey });
+            }
         });
     };
     return NodeManager;

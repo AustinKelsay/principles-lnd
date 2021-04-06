@@ -12,6 +12,18 @@ exports.up = function (knex) {
         users
             .boolean("admin")
             .defaultTo(0);
+        users
+            .string('host')
+            .unique();
+        users
+            .string('cert')
+            .unique();
+        users
+            .string('macaroon')
+            .unique();
+        users
+            .string('pubkey')
+            .unique();
     })
         .createTable('principles', function (principles) {
         principles.increments();
@@ -35,29 +47,10 @@ exports.up = function (knex) {
         principles
             .integer('votes')
             .defaultTo(0);
-    })
-        .createTable('nodes', function (nodes) {
-        nodes
-            .string('host')
-            .notNullable()
-            .unique();
-        nodes
-            .string('cert')
-            .notNullable()
-            .unique();
-        nodes
-            .string('macaroon')
-            .notNullable()
-            .unique();
-        nodes
-            .string('pubkey')
-            .notNullable()
-            .unique();
     }));
 };
 exports.down = function (knex) {
     return (knex.schema
-        .dropTableIfExists('nodes')
         .dropTableIfExists("principles")
         .dropTableIfExists("users"));
 };

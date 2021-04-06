@@ -25,5 +25,5 @@ server.get("/", function (req, res) {
 // server.use('/auth', authRouter);
 // server.use('/principles', principlesRouter);
 // server.use('/principles/user', userPrinciplesRouter);
-server.use("/nodes", lightningRouter);
+server.use("/lnd/:id", lightningRouter);
 exports.default = server;

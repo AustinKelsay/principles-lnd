@@ -2,22 +2,37 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var db = require("../database/dbConfig");
 module.exports = {
-    getAllNodes: getAllNodes,
-    // getNodeByPubkey,
-    // getNodeByToken,
-    // addNode
+    addNode: addNode,
+    updateNode: updateNode,
+    removeNode: removeNode
 };
-function getAllNodes() {
-    return db('nodes');
+function addNode(id, node) {
+    return db("users")
+        .where({ id: id })
+        .update({
+        host: node.host,
+        cert: node.cert,
+        macaroon: node.macaroon,
+        pubkey: node.pubkey
+    });
 }
-// function getNodeByPubkey(pubkey: string) {
-//     return getAllNodes().find(node => node.pubkey === pubkey);
-// }
-// function getNodeByToken(token: string) {
-//     return getAllNodes().find(node => node.token === token);
-// }
-// function addNode(node: LndNode) {
-//     return db("nodes").insert(node).then((n) => {
-//         db('nodes').filter(n => n.host !== node.host)
-//     })
-// }
+function updateNode(id, node) {
+    return db("users")
+        .where({ id: id })
+        .update({
+        host: node.host,
+        cert: node.cert,
+        macaroon: node.macaroon,
+        pubkey: node.pubkey
+    });
+}
+function removeNode(id) {
+    return db('users')
+        .where({ id: id })
+        .update({
+        host: '',
+        cert: '',
+        macaroon: '',
+        pubkey: ''
+    });
+}
