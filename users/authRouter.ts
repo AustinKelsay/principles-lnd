@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const authenticate = require('./authenticate-middleware.js')
-const Users = require("../users/users-model");
+const authenticate = require('./authenticateUserMiddleware.js')
+const Users = require("../users/usersModel");
 import express, {Request, Response} from "express"
 
 router.post('/register', (req: Request, res: Response) => {
@@ -22,7 +22,7 @@ router.post('/register', (req: Request, res: Response) => {
 
 router.post('/login', (req: Request, res: Response) => {
   const { username, password } = req.body;
-
+  console.log('here')
   Users.findBy({ username })
     .then((user: any) => {
       console.log(user);

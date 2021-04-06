@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-// const authRouter = require("./users/auth-router")
+var authRouter = require("./users/authRouter");
 // const principlesRouter = require("./principles/principles-router")
 // const userPrinciplesRouter = require("./principles/user-principles-router")
 var lightningRouter = require("./lightning/lightningRouter");
@@ -19,10 +19,9 @@ server.use(cors_1.default());
 server.use(helmet_1.default());
 server.use(morgan_1.default('tiny'));
 server.get("/", function (req, res) {
-    console.log(process.env.PORT);
     res.status(200).json({ message: "Welcome!" });
 });
-// server.use('/auth', authRouter);
+server.use('/auth', authRouter);
 // server.use('/principles', principlesRouter);
 // server.use('/principles/user', userPrinciplesRouter);
 server.use("/lnd/:id", lightningRouter);
