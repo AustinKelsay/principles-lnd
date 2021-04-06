@@ -5,7 +5,7 @@ var router = require("express").Router();
 router.post('/connection', function (req, res) {
 });
 // Update a node for a user
-router.put("/", function (req, res) {
+router.put("/:id", function (req, res) {
     if (req.body.host && req.body.cert && req.body.macaroon && req.body.pubkey) {
         Nodes.updateNode(req.params.id, req.body)
             .then(function (r) {
@@ -17,7 +17,7 @@ router.put("/", function (req, res) {
     }
 });
 // Remove a node from a user
-router.delete("/", function (req, res) {
+router.delete("/:id", function (req, res) {
     if (req.params.id) {
         Nodes.removeNode(req.params.id)
             .then(function (r) {
@@ -29,7 +29,7 @@ router.delete("/", function (req, res) {
     }
 });
 // Add a node to user
-router.post("/", function (req, res) {
+router.post("/:id", function (req, res) {
     if (req.body.host && req.body.cert && req.body.macaroon && req.body.pubkey) {
         Nodes.addNode(req.params.id, req.body)
             .then(function (nodes) {
@@ -38,6 +38,9 @@ router.post("/", function (req, res) {
             .catch(function (err) {
             res.status(500).json(err);
         });
+    }
+    else {
+        res.status(500).json("Either host, cert, macaroon, or pubkey is missing");
     }
 });
 module.exports = router;

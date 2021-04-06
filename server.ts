@@ -24,6 +24,6 @@ server.get("/", (req: Request, res: Response) => {
 server.use('/auth', authRouter);
 // server.use('/principles', principlesRouter);
 // server.use('/principles/user', userPrinciplesRouter);
-server.use("/lnd/:id", lightningRouter);
+server.use("/lnd", lightningRouter);
 
 export default server;

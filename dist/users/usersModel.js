@@ -44,7 +44,7 @@ module.exports = {
     findById: findById,
 };
 function find() {
-    return db("users").select("id", "username", "password");
+    return db("users");
 }
 function findBy(username) {
     return db("users").where(username).first();
