@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var router = require("express").Router();
 var bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
-var authenticate = require('./authenticateUserMiddleware.js');
+var authenticate = require('./authenticateUserMiddleware');
 var Users = require("../users/usersModel");
 router.post('/register', function (req, res) {
     console.log(req.body);

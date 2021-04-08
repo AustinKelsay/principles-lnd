@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var authRouter = require("./users/authRouter");
-// const principlesRouter = require("./principles/principles-router")
-// const userPrinciplesRouter = require("./principles/user-principles-router")
+var principlesRouter = require("./principles/principlesRouter");
+var userPrinciplesRouter = require("./principles/userPrinciplesRouter");
 var lightningRouter = require("./lightning/lightningRouter");
 var dotenv_1 = __importDefault(require("dotenv"));
 var cors_1 = __importDefault(require("cors"));
@@ -22,7 +22,7 @@ server.get("/", function (req, res) {
     res.status(200).json({ message: "Welcome!" });
 });
 server.use('/auth', authRouter);
-// server.use('/principles', principlesRouter);
-// server.use('/principles/user', userPrinciplesRouter);
+server.use('/principles', principlesRouter);
+server.use('/principles/user', userPrinciplesRouter);
 server.use("/lnd", lightningRouter);
 exports.default = server;

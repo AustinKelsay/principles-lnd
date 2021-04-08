@@ -1,7 +1,7 @@
 import express, { Application, Request, Response } from "express"
 const authRouter = require("./users/authRouter")
-// const principlesRouter = require("./principles/principles-router")
-// const userPrinciplesRouter = require("./principles/user-principles-router")
+const principlesRouter = require("./principles/principlesRouter")
+const userPrinciplesRouter = require("./principles/userPrinciplesRouter")
 const lightningRouter = require("./lightning/lightningRouter")
 import dotenv from 'dotenv';
 import cors from 'cors';
@@ -22,8 +22,8 @@ server.get("/", (req: Request, res: Response) => {
 })
 
 server.use('/auth', authRouter);
-// server.use('/principles', principlesRouter);
-// server.use('/principles/user', userPrinciplesRouter);
+server.use('/principles', principlesRouter);
+server.use('/principles/user', userPrinciplesRouter);
 server.use("/lnd", lightningRouter);
 
 export default server;
