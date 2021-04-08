@@ -2,9 +2,15 @@ const db = require("../database/dbConfig");
 import {LndNode} from "./lightningRouter"
 
 module.exports = {
+    getAllNodes,
     addNode,
     updateNode,
     removeNode
+}
+
+function getAllNodes() {
+    return db('users')
+        .select("users.pubkey", "users.host", "users.cert", "users.macaroon")
 }
 
 function addNode(id: number, node: LndNode) {

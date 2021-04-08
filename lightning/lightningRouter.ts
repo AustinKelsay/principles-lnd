@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import nodeManager from './nodeManager';
 const Nodes = require('./lightningModel')
 const router = require("express").Router();
+const {authenticateAdmin} = require("../users/authenticateAdminMiddleware")
 
 export interface LndNode {
   host: string;
@@ -10,10 +11,14 @@ export interface LndNode {
   pubkey: string;
 }
 
-router.post('/connection', async (req: Request, res: Response) => {
-  const { host, cert, macaroon } = req.body;
-  const { pubkey } = await nodeManager.connect(host, cert, macaroon);
-  
+router.get('/', (req: Request, res: Response) => {
+  Nodes.getAllNodes()
+  .then((nodes: any) => {
+    res.status(200).json(nodes)
+  })
+  .catch((err: Error) => {
+    res.status(500).json(err)
+  })
 })
 
 // Update a node for a user

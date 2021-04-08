@@ -109,7 +109,7 @@ var NodeManager = /** @class */ (function (_super) {
                         _a.sent();
                         // listen for payments from LND
                         this.listenForPayments(rpc, pubkey);
-                        return [3 /*break*/, 9];
+                        return [2 /*return*/, { pubkey: pubkey }];
                     case 8:
                         err_1 = _a.sent();
                         throw err_1;

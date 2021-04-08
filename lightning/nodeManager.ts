@@ -1,6 +1,5 @@
 import createLnRpc, { LnRpc } from '@radar/lnrpc';
 import { EventEmitter } from 'events';
-import { LndNode } from './lightningRouter';
 
 export const NodeEvents = {
   invoicePaid: 'invoice-paid',
@@ -44,7 +43,7 @@ class NodeManager extends EventEmitter {
       this.listenForPayments(rpc, pubkey);
 
       return { pubkey }
-      
+
     } catch (err) {
       throw err;
     }
