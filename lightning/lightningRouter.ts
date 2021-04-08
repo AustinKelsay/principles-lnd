@@ -10,8 +10,10 @@ export interface LndNode {
   pubkey: string;
 }
 
-router.post('/connection', (req: Request, res: Response) => {
-
+router.post('/connection', async (req: Request, res: Response) => {
+  const { host, cert, macaroon } = req.body;
+  const { pubkey } = await nodeManager.connect(host, cert, macaroon);
+  
 })
 
 // Update a node for a user
@@ -41,9 +43,11 @@ router.delete("/:id", (req: Request, res: Response) => {
 })
 
 // Add a node to user
-router.post("/:id", (req: Request, res: Response) => {
-  if (req.body.host && req.body.cert && req.body.macaroon && req.body.pubkey) {
-    Nodes.addNode(req.params.id, req.body)
+router.post("/:id", async (req: Request, res: Response) => {
+  if (req.body.host && req.body.cert && req.body.macaroon) {
+    const { pubkey } = await nodeManager.connect(req.body.host, req.body.cert, req.body.macaroon);
+    const newNode = {pubkey: pubkey, host: req.body.host, cert: req.body.cert, macaroon: req.body.macaroon}
+    Nodes.addNode(req.params.id, newNode)
     .then((nodes: any) => {
       res.status(200).json(nodes)
     })

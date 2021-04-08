@@ -1,5 +1,6 @@
 import createLnRpc, { LnRpc } from '@radar/lnrpc';
 import { EventEmitter } from 'events';
+import { LndNode } from './lightningRouter';
 
 export const NodeEvents = {
   invoicePaid: 'invoice-paid',
@@ -10,7 +11,7 @@ class NodeManager extends EventEmitter {
   /**
    * Tests the LND node connection by validating that we can get the node's info
    */
-  async connect(host: string, cert: string, macaroon: string,) {
+  async connect(host: string, cert: string, macaroon: string) {
 
     try {
       // add the connection to the cache
@@ -42,6 +43,8 @@ class NodeManager extends EventEmitter {
       // listen for payments from LND
       this.listenForPayments(rpc, pubkey);
 
+      return { pubkey }
+      
     } catch (err) {
       throw err;
     }
