@@ -5,7 +5,10 @@
   "main": "dist/app.js",
   "scripts": {
     "start": "tsc && nodemon node dist/index.js",
-    "build": "tsc"
+    "postinstall": "tsc",
+    "watch-node": "nodemon dist/index.js",
+    "watch-ts": "tsc -w",
+    "deploy": "git add . && git commit -m Heroku && git push heroku master"
   },
   "author": "",
   "license": "ISC",
