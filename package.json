@@ -5,7 +5,7 @@
   "main": "dist/app.js",
   "scripts": {
     "start": "tsc && nodemon node dist/index.js",
-    "build": "tsc && node dist/index.js"
+    "build": "node dist/index.js"
   },
   "author": "Austin Kelsay",
   "license": "ISC",
