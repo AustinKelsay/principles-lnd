@@ -4,10 +4,9 @@
   "description": "",
   "main": "dist/app.js",
   "scripts": {
-    "start": "tsc && nodemon node dist/index.js",
-    "build": "tsc"
+    "start": "tsc && nodemon node dist/index.js"
   },
-  "author": "",
+  "author": "Austin Kelsay",
   "license": "ISC",
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
