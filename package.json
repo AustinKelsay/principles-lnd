@@ -5,7 +5,8 @@
   "main": "dist/app.js",
   "scripts": {
     "start": "tsc && nodemon node dist/index.js",
-    "build": "node dist/index.js"
+    "build-ts": "tsc",
+    "postinstall": "npm run build-ts"
   },
   "author": "Austin Kelsay",
   "license": "ISC",
