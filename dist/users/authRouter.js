@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var router = require("express").Router();
 var bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
-var authenticate = require('./authenticateUserMiddleware');
+var authenticateAdmin = require('./middleware/authenticateAdminMiddleware');
 var Users = require("../users/usersModel");
 router.post('/register', function (req, res) {
     console.log(req.body);
@@ -36,7 +36,7 @@ router.post('/login', function (req, res) {
         res.status(500).json({ error: err });
     });
 });
-router.get('/users', authenticate, function (req, res) {
+router.get('/users', authenticateAdmin, function (req, res) {
     Users.find()
         .then(function (users) {
         res.status(200).json(users);
@@ -47,7 +47,7 @@ router.get('/users', authenticate, function (req, res) {
 });
 function generateToken(user) {
     var payload = {
-        subject: user.id,
+        id: user.id,
         username: user.username,
         admin: user.admin
     };

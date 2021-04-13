@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const authenticate = require('./authenticateUserMiddleware')
+const authenticateAdmin = require('./middleware/authenticateAdminMiddleware')
 const Users = require("../users/usersModel");
 import express, {Request, Response} from "express"
 
@@ -39,7 +39,7 @@ router.post('/login', (req: Request, res: Response) => {
     })
 });
 
-router.get('/users', authenticate, (req: Request, res: Response) => {
+router.get('/users', authenticateAdmin, (req: Request, res: Response) => {
   Users.find()
     .then((users: any) => {
       res.status(200).json(users)
@@ -52,7 +52,7 @@ router.get('/users', authenticate, (req: Request, res: Response) => {
 
 function generateToken(user: any) {
   const payload = {
-    subject: user.id,
+    id: user.id,
     username: user.username,
     admin: user.admin
   };

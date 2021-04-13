@@ -1,7 +1,8 @@
 const router = require("express").Router();
 import express, {Request, Response} from "express"
 const userPrinciples = require("./userPrinciplesModel");
-const authenticate = require('../users/authenticateUserMiddleware');
+const authenticate = require('../users/middleware/authenticateMiddleware');
+const authenticateSpecificUser = require("../users/middleware/authenticateSpecificUserMiddleware")
 
 
 router.get("/:id", authenticate, (req: Request, res: Response) => {
@@ -27,7 +28,7 @@ router.post("/", authenticate, (req: Request, res: Response) => {
 });
 
 
-router.delete("/:id", authenticate, (req: Request, res: Response) => {
+router.delete("/:id", authenticateSpecificUser, (req: Request, res: Response) => {
     const { id } = req.params;
     userPrinciples.remove(id)
     .then((principles: any) => {
@@ -45,7 +46,7 @@ router.delete("/:id", authenticate, (req: Request, res: Response) => {
       });
   });
 
-  router.put("/:id", authenticate, (req: Request, res: Response) => {
+  router.put("/:id", authenticateSpecificUser, (req: Request, res: Response) => {
     userPrinciples.update(req.params.id, req.body)
       .then((principles: any) => {
         if (principles) {

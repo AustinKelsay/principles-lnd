@@ -7,7 +7,7 @@ module.exports = function (req, res, next) {
     if (token) {
         jwt.verify(token, secret, function (err, decodedToken) {
             if (err) {
-                res.status(401).json({ message: "Eroor with your verification" });
+                res.status(401).json({ message: "Eror with your verification" });
             }
             else if (decodedToken.admin !== 1) {
                 res.status(401).json({ message: "Must be an admin" });

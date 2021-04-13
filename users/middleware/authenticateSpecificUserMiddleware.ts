@@ -6,14 +6,13 @@ module.exports = (req: Request, res: Response, next: any) => {
     const secret = process.env.JWT_SECRET || "Satoshi Nakamoto";
     if (token) {
       jwt.verify(token, secret, (err: Error, decodedToken: any) => {
-        console.log(`inside verify`)
-        if (err) {
-        console.log(`inside if`)
-  
+        if (err) { 
           res.status(401).json({ message: "Not Allowed" });
-        } else {
-        console.log(`inside else`)
+        } else if (decodedToken.id == req.params.id) {
           next();
+        }
+        else {
+            res.status(401).json({ message: "You cannot preform this operation unless you are logged in as the correct user" });
         }
       });
     } else {

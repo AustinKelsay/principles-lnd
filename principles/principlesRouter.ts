@@ -1,11 +1,11 @@
 const router = require("express").Router();
 import express, {Request, Response} from "express"
 const Principles = require("./principlesModel");
-const authenticate = require("../users/authenticateUserMiddleware");
-const authenticateAdmin = require("../users/authenticateAdminMiddleware")
+const authenticate = require("../users/middleware/authenticateMiddleware");
+const authenticateAdmin = require("../users/middleware/authenticateAdminMiddleware")
 
 
-router.get("/", authenticate, (req: Request, res: Response) => {
+router.get("/", (req: Request, res: Response) => {
     Principles.findPrinciples()
       .then((principles: any) => {
         res.status(200).json(principles);

@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var router = require("express").Router();
 var Principles = require("./principlesModel");
-var authenticate = require("../users/authenticateUserMiddleware");
-var authenticateAdmin = require("../users/authenticateAdminMiddleware");
-router.get("/", authenticate, function (req, res) {
+var authenticate = require("../users/middleware/authenticateMiddleware");
+var authenticateAdmin = require("../users/middleware/authenticateAdminMiddleware");
+router.get("/", function (req, res) {
     Principles.findPrinciples()
         .then(function (principles) {
         res.status(200).json(principles);
