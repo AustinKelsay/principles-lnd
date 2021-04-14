@@ -6,7 +6,6 @@ module.exports = (req: Request, res: Response, next: any) => {
     const secret = process.env.JWT_SECRET || "Satoshi Nakamoto";
     if (token) {
       jwt.verify(token, secret, (err: Error, decodedToken: any) => {
-        console.log(decodedToken)
         if (err) {
           res.status(401).json({ message: "Not Allowed", Error: err });
         } else {

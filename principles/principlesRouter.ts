@@ -2,7 +2,7 @@ const router = require("express").Router();
 import express, {Request, Response} from "express"
 const Principles = require("./principlesModel");
 const authenticate = require("../users/middleware/authenticateMiddleware");
-const authenticateAdmin = require("../users/middleware/authenticateAdminMiddleware")
+const authenticateSpecificUser = require("../users/middleware/authenticateSpecificUserMiddleware")
 
 
 router.get("/", (req: Request, res: Response) => {
@@ -27,7 +27,6 @@ router.get("/:id", authenticate, (req: Request, res: Response) => {
 
 
 router.post("/", authenticate, (req: Request, res: Response) => {
-  console.log(req.body)
     Principles.addPrinciple(req.body)
         .then((principles: any) => {
             res.status(201).json(principles);
@@ -38,7 +37,7 @@ router.post("/", authenticate, (req: Request, res: Response) => {
 });
 
 
-router.delete("/:id", authenticateAdmin, (req: Request, res: Response) => {
+router.delete("/:id", authenticateSpecificUser, (req: Request, res: Response) => {
     const { id } = req.params;
     Principles.removePrinciple(id)
     .then((principles: any) => {
@@ -56,7 +55,7 @@ router.delete("/:id", authenticateAdmin, (req: Request, res: Response) => {
       });
   });
 
-  router.put("/:id", authenticateAdmin, (req: Request, res: Response) => {
+  router.put("/:id", authenticateSpecificUser, (req: Request, res: Response) => {
     Principles.updatePrinciple(req.params.id, req.body)
       .then((principles: any) => {
         if (principles) {

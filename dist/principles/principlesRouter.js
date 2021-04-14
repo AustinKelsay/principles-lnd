@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var router = require("express").Router();
 var Principles = require("./principlesModel");
 var authenticate = require("../users/middleware/authenticateMiddleware");
-var authenticateAdmin = require("../users/middleware/authenticateAdminMiddleware");
+var authenticateSpecificUser = require("../users/middleware/authenticateSpecificUserMiddleware");
 router.get("/", function (req, res) {
     Principles.findPrinciples()
         .then(function (principles) {
@@ -23,7 +23,6 @@ router.get("/:id", authenticate, function (req, res) {
     });
 });
 router.post("/", authenticate, function (req, res) {
-    console.log(req.body);
     Principles.addPrinciple(req.body)
         .then(function (principles) {
         res.status(201).json(principles);
@@ -32,7 +31,7 @@ router.post("/", authenticate, function (req, res) {
         res.status(500).json({ error: error.message });
     });
 });
-router.delete("/:id", authenticateAdmin, function (req, res) {
+router.delete("/:id", authenticateSpecificUser, function (req, res) {
     var id = req.params.id;
     Principles.removePrinciple(id)
         .then(function (principles) {
@@ -50,7 +49,7 @@ router.delete("/:id", authenticateAdmin, function (req, res) {
         res.status(500).json({ errorMessage: "The principle could not be removed" });
     });
 });
-router.put("/:id", authenticateAdmin, function (req, res) {
+router.put("/:id", authenticateSpecificUser, function (req, res) {
     Principles.updatePrinciple(req.params.id, req.body)
         .then(function (principles) {
         if (principles) {
