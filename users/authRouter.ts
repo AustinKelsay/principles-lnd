@@ -6,7 +6,6 @@ const Users = require("../users/usersModel");
 import express, {Request, Response} from "express"
 
 router.post('/register', (req: Request, res: Response) => {
-  console.log(req.body);
   const hash = bcrypt.hashSync(req.body.password, 14)
 
   req.body.password = hash;
@@ -22,10 +21,8 @@ router.post('/register', (req: Request, res: Response) => {
 
 router.post('/login', (req: Request, res: Response) => {
   const { username, password } = req.body;
-  console.log('here')
   Users.findBy({ username })
     .then((user: any) => {
-      console.log(user);
       if (user && bcrypt.compareSync(password, user.password)) {
         const token = generateToken(user);
         res.status(200).json({ message: `Welcome ${user.username}!`, token, user });
@@ -34,7 +31,6 @@ router.post('/login', (req: Request, res: Response) => {
       }
     })
     .catch((err: Error) => {
-      console.log(err);
       res.status(500).json({error: err})
     })
 });
