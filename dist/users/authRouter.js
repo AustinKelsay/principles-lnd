@@ -6,7 +6,6 @@ var jwt = require("jsonwebtoken");
 var authenticateAdmin = require('./middleware/authenticateAdminMiddleware');
 var Users = require("../users/usersModel");
 router.post('/register', function (req, res) {
-    console.log(req.body);
     var hash = bcrypt.hashSync(req.body.password, 14);
     req.body.password = hash;
     Users.add(req.body)
@@ -19,10 +18,8 @@ router.post('/register', function (req, res) {
 });
 router.post('/login', function (req, res) {
     var _a = req.body, username = _a.username, password = _a.password;
-    console.log('here');
     Users.findBy({ username: username })
         .then(function (user) {
-        console.log(user);
         if (user && bcrypt.compareSync(password, user.password)) {
             var token = generateToken(user);
             res.status(200).json({ message: "Welcome " + user.username + "!", token: token, user: user });
@@ -32,7 +29,6 @@ router.post('/login', function (req, res) {
         }
     })
         .catch(function (err) {
-        console.log(err);
         res.status(500).json({ error: err });
     });
 });

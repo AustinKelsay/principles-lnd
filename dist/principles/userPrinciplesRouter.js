@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var router = require("express").Router();
 var userPrinciples = require("./userPrinciplesModel");
 var authenticate = require('../users/middleware/authenticateMiddleware');
-var authenticateSpecificUser = require("../users/middleware/authenticateSpecificUserMiddleware");
 router.get("/:id", authenticate, function (req, res) {
     userPrinciples.find(req.params.id)
         .then(function (principles) {
