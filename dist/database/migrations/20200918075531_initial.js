@@ -36,6 +36,13 @@ exports.up = function (knex) {
             .onUpdate("CASCADE")
             .onDelete("CASCADE");
         principles
+            .string('user')
+            .notNullable()
+            .references('username')
+            .inTable('users')
+            .onUpdate("CASCADE")
+            .onDelete("CASCADE");
+        principles
             .string('problem')
             .notNullable()
             .unique();
