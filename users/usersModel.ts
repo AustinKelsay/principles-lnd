@@ -1,4 +1,4 @@
-const db = require("../database/dbConfig");
+import db from "../database/dbConfig"
 
 export interface User {
     username: String,

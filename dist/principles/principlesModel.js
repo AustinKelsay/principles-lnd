@@ -35,7 +35,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var db = require("../database/dbConfig");
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var dbConfig_1 = __importDefault(require("../database/dbConfig"));
 module.exports = {
     addPrinciple: addPrinciple,
     findPrinciples: findPrinciples,
@@ -44,25 +48,25 @@ module.exports = {
     removePrinciple: removePrinciple
 };
 function findPrinciples() {
-    return db("principles");
+    return dbConfig_1.default("principles");
 }
 function findById(id) {
-    return db("principles").where({ id: id }).first();
+    return dbConfig_1.default("principles").where({ id: id }).first();
 }
 function addPrinciple(principle) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            return [2 /*return*/, db("principles").insert(principle, "id")];
+            return [2 /*return*/, dbConfig_1.default("principles").insert(principle, "id")];
         });
     });
 }
 function updatePrinciple(id, changes) {
-    return db('principles')
+    return dbConfig_1.default('principles')
         .where({ id: id })
         .update(changes, '*');
 }
 function removePrinciple(id) {
-    return db('principles')
+    return dbConfig_1.default('principles')
         .where('id', Number(id))
         .del();
 }

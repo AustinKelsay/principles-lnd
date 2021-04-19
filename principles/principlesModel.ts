@@ -1,4 +1,4 @@
-const db = require("../database/dbConfig");
+import db from "../database/dbConfig"
 
 module.exports = {
   addPrinciple,

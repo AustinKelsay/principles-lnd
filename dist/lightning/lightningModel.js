@@ -1,6 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var db = require("../database/dbConfig");
+var dbConfig_1 = __importDefault(require("../database/dbConfig"));
 module.exports = {
     getAllNodes: getAllNodes,
     addNode: addNode,
@@ -8,11 +11,11 @@ module.exports = {
     removeNode: removeNode
 };
 function getAllNodes() {
-    return db('users')
+    return dbConfig_1.default('users')
         .select("users.pubkey", "users.host", "users.cert", "users.macaroon");
 }
 function addNode(id, node) {
-    return db("users")
+    return dbConfig_1.default("users")
         .where({ id: id })
         .update({
         host: node.host,
@@ -22,7 +25,7 @@ function addNode(id, node) {
     });
 }
 function updateNode(id, node) {
-    return db("users")
+    return dbConfig_1.default("users")
         .where({ id: id })
         .update({
         host: node.host,
@@ -32,7 +35,7 @@ function updateNode(id, node) {
     });
 }
 function removeNode(id) {
-    return db('users')
+    return dbConfig_1.default('users')
         .where({ id: id })
         .update({
         host: '',

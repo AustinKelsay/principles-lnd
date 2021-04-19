@@ -35,8 +35,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var db = require("../database/dbConfig");
+var dbConfig_1 = __importDefault(require("../database/dbConfig"));
 module.exports = {
     add: add,
     find: find,
@@ -44,17 +47,17 @@ module.exports = {
     findById: findById,
 };
 function find() {
-    return db("users");
+    return dbConfig_1.default("users");
 }
 function findBy(username) {
-    return db("users").where(username).first();
+    return dbConfig_1.default("users").where(username).first();
 }
 function add(user) {
     return __awaiter(this, void 0, void 0, function () {
         var id;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, db("users").insert(user, 'id')];
+                case 0: return [4 /*yield*/, dbConfig_1.default("users").insert(user, 'id')];
                 case 1:
                     id = (_a.sent())[0];
                     return [2 /*return*/, findById(id)];
@@ -63,5 +66,5 @@ function add(user) {
     });
 }
 function findById(id) {
-    return db("users").where({ id: id }).first();
+    return dbConfig_1.default("users").where({ id: id }).first();
 }
