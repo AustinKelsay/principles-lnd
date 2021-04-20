@@ -32,6 +32,24 @@ exports.seed = function(knex: any) {
           change: 'Me and a friend are collaborating to learn one piece of Bitcoin software on our Umbrel node per week and hold each other accountable',
           votes: 0
         },
+        {
+          id: 4, 
+          user_id: 3,
+          user: 'Austin',
+          problem: "I don't have enough sats!!!", 
+          diagnosis: "I'm not stacking proportion to my conviction",
+          change: "I setup auto stacking with Swan and am still smash-buying the dip on cashapp. Check out https://swanbitcoin.com/austink",
+          votes: 1
+        },
+        {
+          id: 5, 
+          user_id: 3,
+          user: 'Austin',
+          problem: "I am sleeping past my alarm consistently despite going to bed at a decent time", 
+          diagnosis: "My body is now habitualized to sleep in so I need a clean approach to re-establish waking up fresh",
+          change: "Using the shortcuts app on Iphone I'm now waking up to Tales From The Crypt as my alarm which gets me pumped to take on the day",
+          votes: 0
+        },
       ]);
     });
 };
